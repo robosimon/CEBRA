@@ -1491,6 +1491,10 @@ class CEBRA(TransformerMixin, BaseEstimator):
 
         backend = "sklearn"
 
+        if (not torch.cuda.is_available() and
+                "map_location" not in kwargs):
+            kwargs["map_location"] = "cpu"
+
         # NOTE(stes): For maximum backwards compatibility, we allow to load legacy checkpoints. From 0.7.0 onwards,
         # the user will have to explicitly pass weights_only=False to load these checkpoints, following the changes
         # introduced in torch 2.6.0.
